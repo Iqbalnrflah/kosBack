@@ -14,6 +14,7 @@ let snap = new midtransClient.Snap({
 });
 
 app.post("/bayar", async (req, res) => {
+  console.log("body masuk:", req.body); // debug
   try {
     const { nama, amount } = req.body;
 
