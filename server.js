@@ -5,10 +5,9 @@ const midtransClient = require("midtrans-client");
 
 const app = express();
 app.use(express.json());
-
-// ================= DEBUG =================
 console.log("SERVER STARTING...");
 console.log("SERVER_KEY EXISTS:", !!process.env.SERVER_KEY);
+console.log("FORCE REDEPLOY", Date.now());
 
 // ================= HEALTH CHECK =================
 app.get("/", (req, res) => {
