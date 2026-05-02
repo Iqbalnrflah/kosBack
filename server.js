@@ -1,3 +1,5 @@
+require("dotenv").config();
+
 const express = require("express");
 const midtransClient = require("midtrans-client");
 
@@ -21,9 +23,12 @@ app.post("/bayar", async (req, res) => {
 
     const { nama, amount } = req.body;
 
-    if (!nama || !amount) {
+    console.log("TYPE AMOUNT:", typeof amount);
+    console.log("VALUE AMOUNT:", amount);
+
+    if (!nama || !amount || Number(amount) <= 0) {
       return res.status(400).json({
-        error: "nama & amount wajib",
+        error: "nama & amount wajib dan amount harus > 0",
       });
     }
 
@@ -55,4 +60,4 @@ app.post("/bayar", async (req, res) => {
 });
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log("Server jalan di port", PORT));
+app.listen(PORT, () => console.log("Server jalan di port", PORT)); 
