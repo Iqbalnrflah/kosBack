@@ -1,17 +1,18 @@
+require("dotenv").config(); // 🔥 WAJIB
+
 const express = require("express");
 const midtransClient = require("midtrans-client");
 
 const app = express();
 app.use(express.json());
 
-console.log("SERVER_KEY:", process.env.SERVER_KEY);
+console.log("SERVER_KEY:", process.env.SERVER_KEY); // debug
 
 let snap = new midtransClient.Snap({
-  isProduction: false,
-  serverKey: "Mid-server-aH6j_Xq7s4fwsInRCOtsMiQV", // 🔥 jangan hardcode
+  isProduction: false, // sandbox
+  serverKey: process.env.SERVER_KEY, // ✅ FIX DI SINI
 });
 
-/// 🔥 ENDPOINT UNTUK FLUTTER
 app.post("/bayar", async (req, res) => {
   try {
     const { nama, amount } = req.body;
@@ -49,7 +50,6 @@ app.post("/bayar", async (req, res) => {
   }
 });
 
-/// 🔥 ENDPOINT KHUSUS WEBHOOK (BIAR LENGKAP)
 app.post("/webhook", (req, res) => {
   console.log("Webhook:", req.body);
   res.sendStatus(200);
