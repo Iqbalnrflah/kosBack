@@ -3,11 +3,16 @@ const midtransClient = require("midtrans-client");
 const cors = require("cors");
 
 const app = express();
+
 app.use(express.json());
 app.use(cors());
 
+app.get("/", (req, res) => {
+  res.send("API Running");
+});
+
 const snap = new midtransClient.Snap({
-  isProduction: false, // sandbox dulu
+  isProduction: false,
   serverKey: "Mid-server-aH6j_Xq7s4fwsInRCOtsMiQV",
 });
 
@@ -33,10 +38,15 @@ app.post("/bayar", async (req, res) => {
 
   } catch (err) {
     console.log("ERROR:", err.message);
-    res.status(500).json({ error: err.message });
+
+    res.status(500).json({
+      error: err.message,
+    });
   }
 });
+
 const port = process.env.PORT || 3000;
+
 app.listen(port, () => {
   console.log(`Server jalan ${port}`);
 });
