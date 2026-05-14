@@ -11,10 +11,22 @@ app.get("/", (req, res) => {
   res.send("API Running");
 });
 
-const snap = new midtransClient.Snap({
-  isProduction: false,
-  serverKey: "Mid-server-aH6j_Xq7s4fwsInRCOtsMiQV",
+app.get("/test", (req, res) => {
+  res.send("Backend hidup");
 });
+
+let snap;
+
+try {
+  snap = new midtransClient.Snap({
+    isProduction: false,
+    serverKey: "Mid-server-aH6j_Xq7s4fwsInRCOtsMiQV",
+  });
+
+  console.log("Midtrans connected");
+} catch (err) {
+  console.log("MIDTRANS ERROR:", err.message);
+}
 
 app.post("/bayar", async (req, res) => {
   try {
@@ -23,7 +35,7 @@ app.post("/bayar", async (req, res) => {
     const parameter = {
       transaction_details: {
         order_id: "INV-" + Date.now(),
-        gross_amount: amount,
+        gross_amount: parseInt(amount),
       },
       customer_details: {
         first_name: nama,
@@ -37,7 +49,7 @@ app.post("/bayar", async (req, res) => {
     });
 
   } catch (err) {
-    console.log("ERROR:", err.message);
+    console.log("ERROR:", err);
 
     res.status(500).json({
       error: err.message,
@@ -47,6 +59,6 @@ app.post("/bayar", async (req, res) => {
 
 const port = process.env.PORT || 3000;
 
-app.listen(port, () => {
+app.listen(port, "0.0.0.0", () => {
   console.log(`Server jalan ${port}`);
 });
