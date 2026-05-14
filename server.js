@@ -36,7 +36,7 @@ app.post("/bayar", async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 });
-
-app.listen(3000, () => {
-  console.log("Server jalan di http://192.168.1.10:3000");
+const port = process.env.PORT || 3000;
+app.listen(port, () => {
+  console.log(`Server jalan ${port}`);
 });
